@@ -1,6 +1,7 @@
 #include <math.h>
-// #include "i2cFunctions.h"
+
 #include "LSM6DS3addresses.h"
+#include "settings.h"
 
 /*
 updateTiltPos
@@ -48,33 +49,45 @@ int yMoveDirection() {
 }
 
 
-void ritaBol(int xAxel, int yAxel ){
+int playerX = 1;
+int playerY = 1;
 
-	killPixel(x,y);
-	killPixel(x+1, y);
-	killPixel(x,y+1);
-	killPixel(x+1,y+1);
+void drawPlayer(int xDirection, int yDirection ){
 
-	if ((xAxel == 1) && (x < 126) && (readPixel(x+2,y) == 0) && (readPixel(x+2,y+1) == 0)){ // flytar boll åt höger
-		x++;
+  // TODO: Gör klump till loop och egen funktion
+	killPixel(playerX, playerY);
+	killPixel(playerX+1, playerY);
+	killPixel(playerX, playerY+1);
+	killPixel(playerX+1, playerY+1);
+
+	if ((xDirection == 1) && (playerX < SCREEN_WIDTH - PLAYER_WIDTH - 1) &&
+          (readPixel(playerX + PLAYER_WIDTH, playerY) == 0) &&
+                (readPixel(playerX + PLAYER_WIDTH, playerY + PLAYER_HEIGHT - 1) == 0)) { // moves ball to the right
+		playerX++;
+
+	} else if((xDirection == -1) && (playerX > 1) &&
+          (readPixel(playerX - 1, playerY) == 0) &&
+                (readPixel(playerX - 1, playerY + PLAYER_HEIGHT - 1) == 0)) { // moves ball to the left
+		playerX--;
 	}
 
-	else if((xAxel == -1) && (x > 1) && (readPixel(x-1,y) == 0) && (readPixel(x-1,y+1) == 0)){ // flytar bol åt vänster
-		x--;
+	if ((yDirection == 1) && (playerY > 1) &&
+          (readPixel(playerX, playerY - 1) == 0) &&
+                (readPixel(playerX + PLAYER_WIDTH - 1, playerY - 1) == 0)) { // moves ball upwards
+		playerY--;
 	}
 
-	if ((yAxel == 1) && (y > 1) && (readPixel(x,y-1) == 0) && (readPixel(x+1,y-1) == 0)){ // flytar bol uppåt
-		y--;
+	else if ((yDirection == - 1) && (playerY < SCREEN_HEIGHT - PLAYER_HEIGHT - 1) &&
+          (readPixel(playerX, playerY + 2) == 0) &&
+                (readPixel(playerX + 1, playerY + 2) == 0)) { // moves ball downwards
+		playerY++;
 	}
 
-	else if ((yAxel == -1) && (y < 29) && (readPixel(x,y+2) == 0) && (readPixel(x+1,y+2) == 0)){ // flytar bol nedåt
-		y++;
-	}
-
-	drawPixel(x,y);
-	drawPixel(x+1, y);
-	drawPixel(x,y+1);
-	drawPixel(x+1,y+1);
+  // TODO: Gör klump till loop och egen funktion
+	drawPixel(playerX, playerY);
+	drawPixel(playerX+1, playerY);
+	drawPixel(playerX, playerY+1);
+	drawPixel(playerX+1, playerY+1);
 
 }
 
