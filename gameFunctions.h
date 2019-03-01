@@ -31,10 +31,10 @@ void updateTiltPos() {
 }
 
 int xMoveDirection() {
-  if (xTiltPos < 0) {
-    return 1;
-  } else if(xTiltPos < 0) {
+  if (xTiltPos > 0) {
     return -1;
+  } else if(xTiltPos < 0) {
+    return 1;
   } else {
     return 0;
   }
