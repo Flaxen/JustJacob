@@ -3,42 +3,6 @@
 
 void write(int subAddres, int data);
 
-/* Convert 8.8 bit fixed point to string representation*/
-char *fixed_to_string(uint16_t num, char *buf) {
-	bool neg = false;
-	uint32_t n;
-	char *tmp;
-
-	if(num & 0x8000) {
-		num = ~num + 1;
-		neg = true;
-	}
-
-	buf += 4;
-	n = num >> 8;
-	tmp = buf;
-	do {
-		*--tmp = (n  % 10) + '0';
-		n /= 10;
-	} while(n);
-	if(neg)
-		*--tmp = '-';
-
-	n = num;
-	if(!(n & 0xFF)) {
-		*buf = 0;
-		return tmp;
-	}
-	*buf++ = '.';
-	while((n &= 0xFF)) {
-		n *= 10;
-		*buf++ = (n >> 8) + '0';
-	}
-	*buf = 0;
-
-	return tmp;
-}
-
 i2cInit() {
 	// initialization i2c for master
 	I2C1CON = 0x0;              									// disable i2c1 to make changes
