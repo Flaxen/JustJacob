@@ -3,7 +3,6 @@
 
 void write(int subAddres, int data);
 
-
 /* Convert 8.8 bit fixed point to string representation*/
 char *fixed_to_string(uint16_t num, char *buf) {
 	bool neg = false;
@@ -52,8 +51,6 @@ i2cInit() {
 	write(CTRL3_C, 0x06);													// enable autoincrementing addressing as well as BIG endian
 
 }
-
-
 
 
 /*
@@ -226,6 +223,31 @@ void sendAndVerifyTransmit(int data) {
   }
 }
 
+
+/*
+outDataToInt
+DESC:
+	Converts data from the write function to a readable int. Removes decimals.
+	The value that gets saved and returned is in the most significant byte. An
+	inValue of 0xFFyy, where y can be any hexadecimal digit, would return the
+	integer -1.
+PRE:
+	Argument inValue must not be larger than 2 byte.
+POST:
+	Returns the value of the most significant byte of the inValue as a signed int.
+*/
+int outDataToInt(int inValue) {
+
+	inValue >>= 8;
+
+	if ((inValue & 0x80) == 0x80) {
+		inValue = 0xFFFFFF00 + inValue;
+		inValue = (~inValue+1)*(-1);
+	}
+
+	return inValue;
+}
+
 /*
 write
 DESC:
@@ -313,5 +335,5 @@ int read(int subAddres) {
   I2C1CONSET = 0x4;                             // asserts stop condition
   awaitStop();                                  // waits for Stop Enable Event to finish
 
-  return outData;                               // returns return variable
+  return outDataToInt(outData);                 // returns return variable as readable int.
 }
