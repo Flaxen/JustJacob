@@ -372,10 +372,19 @@ void killPixel(int x, int y) {
 }
 
 
-int x = 0;
+int readPixel(int x, int y) {
+	while(y >= 8) {
+		x += 128;
+		y -= 8;
+	}
+	return (icon[x] &= (1 << (y)));
+}
+
+
+int x = 1;
 int xRight = 1;
 
-int y = 0;
+int y = 1;
 int yDown = 1;
 
 void displayTest() {
