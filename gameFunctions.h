@@ -54,13 +54,32 @@ int yMoveDirection() {
 int playerX = 1;
 int playerY = 1;
 
-void drawPlayer(int xDirection, int yDirection ){
 
-  // TODO: Gör klump till loop och egen funktion
-	killPixel(playerX, playerY);
-	killPixel(playerX+1, playerY);
-	killPixel(playerX, playerY+1);
-	killPixel(playerX+1, playerY+1);
+void killPlayer() {
+
+  int i,j;
+  for(i = 0; i < PLAYER_WIDTH; i++){
+    for(j = 0; j < PLAYER_HEIGHT; j++){
+      killPixel(playerX + i, playerY + j);
+    }
+  }
+
+}
+
+void drawPlayer(){
+
+  int i, j;
+  for(i = 0; i < PLAYER_WIDTH; i++){
+    for(j = 0; j < PLAYER_HEIGHT; j++){
+      drawPixel(playerX + i, playerY + j);
+    }
+  }
+
+}
+
+void drawMove(int xDirection, int yDirection ){
+
+  killPlayer();
 
 	if ((xDirection == 1) && (playerX < SCREEN_WIDTH - PLAYER_WIDTH - 1) &&
           (readPixel(playerX + PLAYER_WIDTH, playerY) == 0) &&
@@ -85,12 +104,7 @@ void drawPlayer(int xDirection, int yDirection ){
 		playerY++;
 	}
 
-  // TODO: Gör klump till loop och egen funktion
-	drawPixel(playerX, playerY);
-	drawPixel(playerX+1, playerY);
-	drawPixel(playerX, playerY+1);
-	drawPixel(playerX+1, playerY+1);
-
+  drawPlayer();
 }
 
 
