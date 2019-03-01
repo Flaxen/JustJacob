@@ -36,6 +36,7 @@ int xMoveDirection() {
     return 0;
   }
 }
+
 int yMoveDirection() {
   if (yTiltPos > 0) {
     return 1;
@@ -47,6 +48,35 @@ int yMoveDirection() {
 }
 
 
+void ritaBol(int xAxel, int yAxel ){
+
+	killPixel(x,y);
+	killPixel(x+1, y);
+	killPixel(x,y+1);
+	killPixel(x+1,y+1);
+
+	if ((xAxel == 1) && (x < 126) && (readPixel(x+2,y) == 0) && (readPixel(x+2,y+1) == 0)){ // flytar boll åt höger
+		x++;
+	}
+
+	else if((xAxel == -1) && (x > 1) && (readPixel(x-1,y) == 0) && (readPixel(x-1,y+1) == 0)){ // flytar bol åt vänster
+		x--;
+	}
+
+	if ((yAxel == 1) && (y > 1) && (readPixel(x,y-1) == 0) && (readPixel(x+1,y-1) == 0)){ // flytar bol uppåt
+		y--;
+	}
+
+	else if ((yAxel == -1) && (y < 29) && (readPixel(x,y+2) == 0) && (readPixel(x+1,y+2) == 0)){ // flytar bol nedåt
+		y++;
+	}
+
+	drawPixel(x,y);
+	drawPixel(x+1, y);
+	drawPixel(x,y+1);
+	drawPixel(x+1,y+1);
+
+}
 
 
 
