@@ -7,6 +7,8 @@
 updateTiltPos
 DESC:
   Keeps track of the angle of the board.
+  NOTE: yTiltPos gets +1 as the sensor data for that axes for some reason is
+  off by 1.
 PRE:
   Board has to lay flat on a surface during bootup as it caibrates 0 degrees to
   the position it has at startup.
@@ -17,7 +19,7 @@ int xTiltPos = 0;
 int yTiltPos = 0;
 
 void updateTiltPos() {
-  xTiltPos += (read(OUTX_L_G)+1);
+  xTiltPos += (read(OUTX_L_G));
   yTiltPos += (read(OUTY_L_G)+1);
 
   if(xTiltPos > (-3) && xTiltPos < 3) {
@@ -29,7 +31,7 @@ void updateTiltPos() {
 }
 
 int xMoveDirection() {
-  if (xTiltPos > 0) {
+  if (xTiltPos < 0) {
     return 1;
   } else if(xTiltPos < 0) {
     return -1;
