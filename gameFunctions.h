@@ -264,6 +264,23 @@ void drawMove(int xDirection, int yDirection ){
 }
 
 
+/*
+winGame
+DESC:
+  Determines if player has won the game
+PRE:
+  The x and y coordinates for the left upper corner of the player needs to be in playerX respectively playerY and the player  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+POST:
+  Returns 1 if player is won and 0 otherwise
+*/
+
+void winGame(){
+  if(playerX == 0){
+    return 1;
+  }
+  return 0;
+}
+
 
 
 
