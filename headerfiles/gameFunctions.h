@@ -274,8 +274,8 @@ POST:
   Returns 1 if player is won and 0 otherwise
 */
 
-void winGame(){
-  if(playerX == 0){
+int winGame(){
+  if(playerX == 1){
     return 1;
   }
   return 0;
