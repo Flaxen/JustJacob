@@ -371,13 +371,13 @@ void killPixel(int x, int y) {
 	icon[x] &= ~(1 << (y));
 }
 
-
+// kontrolerar om en pixel är tend retunerar 0 om pixel är av och ett värde anars
 int readPixel(int x, int y) {
 	while(y >= 8) {
 		x += 128;
 		y -= 8;
 	}
-	return (icon[x] &= (1 << (y)));
+	return (icon[x] & (1 << (y)));
 }
 
 
