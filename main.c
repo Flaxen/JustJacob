@@ -1,10 +1,10 @@
 #include <pic32mx.h>
 #include <stdint.h>
 
-#include "displayFunctions.h"
-#include "i2cFunctions.h"
-#include "LSM6DS3addresses.h"
-#include "gameFunctions.h"
+#include "headerfiles/displayFunctions.h"
+#include "headerfiles/i2cFunctions.h"
+#include "headerfiles/LSM6DS3addresses.h"
+#include "headerfiles/gameFunctions.h"
 
 int main(void) {
 
@@ -16,23 +16,22 @@ int main(void) {
 
 	display_init();
 
+
+
+	setPlayerStartPos();
+
 	while(1) {
+
 		updateTiltPos();
+		drawMove(yMoveDirection(), xMoveDirection());
+		display_image(0, MAP_CHOICE);
 
-		displayTest();
-		display_image(0, icon);
 
-		if(xMoveDirection() > 0) {
-			TRISFCLR = 0x1; //lampor
-			PORTFSET = 0x1;
-		} else {
-			TRISFCLR = 0x1; //lampor
-			PORTFCLR = 0x1;
-		}
+
 
 		// display_string(1, s);
 		// display_update();
-		delay(10000);
+		delay(150000);
 
 	}
 
