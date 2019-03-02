@@ -54,9 +54,24 @@ int yMoveDirection() {
 int playerX = 0;
 int playerY = 0;
 
+/*
+setPlayerStartPos
+DESC:
+  Sets the start coordinates for the player
+PRE:
+The coordinates most place the whole player on screen
+POST:
+  The start coordinates for the upper left corner of the player is set
+*/
+
+void setPlayerStartPos() {
+    playerX = START_COORDINATE_X;
+    playerY = START_COORDINATE_Y;
+}
+
 
 /*
-killPlaye
+killPlayer
 DESC:
   takes the player of the board
 PRE:
