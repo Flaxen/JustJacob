@@ -1,26 +1,50 @@
+/*
+All contents in this file are written by Johanna Jansson
+Written by Johanna Jansson
+*/
 
-
-
-void  butensInti() {
-	// initialization for butten 2-4
+void  buttonsInit() {
+	// initialization for buttons
 	TRISDSET = 0xd0;
 
 }
 
-int getbuten(){
-  // gets data from butten 2-4 and shifts it to bit 0-2
+int getButton(){
+  // gets data from button 2-4 and shifts it to bit 0-2
 	return((PORTD >> 5) & 0x7);
 }
 
+/*
+menuChoiceDelay
+Written by Johanna Jansson
+DESC:
+	Acts as a delay for the cycling of menu choices.
+PRE:
+	n/a
+POST:
+	Sets time to 0, allowing another meny choice cycle to be mande
+*/
 int time = 0;
-void uppdatMenue() {
+void menuChoiceDelay() {
   // Decreases the delay time
   if(time > 0){
     time == 0;
   }
 }
 
-void menue(int position) {
+
+/*
+menu
+Written by Johanna Jansson
+DESC:
+	Displays and cycles cursor for the main(and only) menu. Updates display
+	according to provided position argument
+PRE:
+	n/a
+POST:
+	Displays a variation of strings on screen based on input.
+*/
+void menu(int position) {
   // Displays the menu
 	display_string(0, "");
 	display_string(1, "Play");
@@ -38,21 +62,42 @@ void menue(int position) {
 	display_update();
 }
 
-int staytMenue(int present){
+/*
+stateMenu
+Written by Johanna Jansson
+DESC:
+	Keeps track of and returns the menu position.
+PRE:
+	Buttons initialized?
+POST:
+	Returnes an updated menu position.
+*/
+int stateMenu(int position){
   // Changes the state in the menu
-	if(getbuten() == 4){
-		present++;
+	if(getButton() == 4){
+		position++;
     time = 1000000;
 	}
-	if (present > 1){
-		present = 0;
+	if (position > 1){
+		position = 0;
 	}
-	return present;
+	return position;
 }
 
-int exitMenue(int position){
+
+/*
+exitMenu
+Written by Johanna Jansson
+DESC:
+	Returns 1 if the player has chosen to leave the menu.
+PRE:
+	Buttons initialized?
+POST:
+	Returns "1" or "0".
+*/
+int exitMenu(int position){
   // Exits menu
-	if(position == 0 && getbuten() == 2){
+	if(position == 0 && getButton() == 2){
 		return 1;
 	}
 	return 0;
@@ -83,7 +128,7 @@ void settings(int position) {
 
 int enterSettings(int position){
   // Enter settings
-	if(position == 1 && getbuten() == 2){
+	if(position == 1 && getButton() == 2){
 		return 1;
 	}
 	return 0;

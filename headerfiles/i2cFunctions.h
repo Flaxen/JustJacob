@@ -3,6 +3,17 @@
 
 void write(int subAddres, int data);
 
+/*
+i2cInit
+Written collaboratory
+Physically written by Alexander Carlsson
+DESC:
+	Initializes i2c for master and slave to communication.
+PRE:
+	Hardware is set up properly.
+POST:
+	Writes initialization values to registers of both master and slave devices.
+*/
 i2cInit() {
 	// initialization i2c for master
 	I2C1CON = 0x0;              									// disable i2c1 to make changes
@@ -19,6 +30,8 @@ i2cInit() {
 
 /*
 awaitAknowledge
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Checks the ACKSTAT bit (I2C1STAT<15>) and returns "1" or "0" according to the
   ACKSTAT value.
@@ -28,7 +41,6 @@ PRE:
 POST:
   Returns "0" if ACKSTAT is zero, and returns "1" if ACKSTAT holds any other
   value than zero.
-
 */
 int awaitAknowledge(){
   if (I2C1STAT & 0x8000) {
@@ -37,8 +49,11 @@ int awaitAknowledge(){
   return 0;
 }
 
+
 /*
 awaitIdle
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Checks bus idle state by checking if start bit S (I2C1STAT<3>) is high.
 PRE:
@@ -57,6 +72,8 @@ void awaitIdle() {
 
 /*
 awaitStart
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Waits for the start condition event to finish by checking the Start Enable bit
   SEN bit (I2C1CON<0>).
@@ -74,6 +91,8 @@ void awaitStart() {
 
 /*
 awaitStop
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Waits for the stop condition event to finish by checking the Stop Enable bit
   PEN bit (I2C1CON<2>).
@@ -91,6 +110,8 @@ void awaitStop(){
 
 /*
 awaitRecieve
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Waits for the recieve condition event to finish by checking the Recieve Enable
   bit RCEN bit (I2C1CON<3>).
@@ -108,6 +129,8 @@ void awaitRecieve() {
 
 /*
 awaitRestart
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Waits for the restart condition event to finish by checking the Restart Enable
   bit RSEN bit (I2C1CON<1>).
@@ -125,6 +148,8 @@ void awaitRestart() {
 
 /*
 awaitTransmission
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Checks that no transmission is currently in progress by checking the Transmit
   Buffer Full bit (I2C1STAT<0>).
@@ -142,6 +167,8 @@ void awaitTransmission() {
 
 /*
 awaitMasterLogicInactive
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Checks that all master logic is inactive by checking the five least
   significant bits of I2C1CON (0-4). It also checks the Transmit Status bit
@@ -162,6 +189,8 @@ void awaitMasterLogicInactive() {
 
 /*
 sendAndVerifyTransmit
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Transmits data provided in the argument "data" onto the bus and retries in
   case acknowledge isn't recieved.
@@ -190,6 +219,8 @@ void sendAndVerifyTransmit(int data) {
 
 /*
 outDataToInt
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
 	Converts data from the write function to a readable int. Removes decimals.
 	The value that gets saved and returned is in the most significant byte. An
@@ -214,6 +245,8 @@ int outDataToInt(int inValue) {
 
 /*
 write
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Writes the data provided in the argument "data" is written to the LSM6DS3
   register with the address provided in the argument "subAddres".
@@ -246,6 +279,8 @@ void write(int subAddres, int data) {
 
 /*
 read
+Written collaboratory
+Physically written by Alexander Carlsson
 DESC:
   Reads and returns the data from the register of the LSM6DS3 register with the
   matching address provided in the "subAddres" argument.

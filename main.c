@@ -13,7 +13,7 @@ int main(void) {
 	// initializations
 	spiInit();
 	i2cInit();
-	butensInti();
+	buttonsInit();
 
 	display_init();
 
