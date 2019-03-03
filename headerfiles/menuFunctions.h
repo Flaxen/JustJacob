@@ -2,7 +2,7 @@
 
 
 void  butensInti() {
-	// initialization for buttens
+	// initialization for butten 2-4
 	TRISDSET = 0xd0;
 
 }
@@ -57,7 +57,7 @@ int staytMenue(int present){
 int exitMenue(int position){
   // Exits menu
 	if(position == 0 && getbuten() == 2){
-		return 0;
+		return 1;
 	}
-	return 1;
+	return 0;
 }

@@ -33,15 +33,15 @@ int main(void) {
 	setPlayerStartPos();
 
 	// enter menu
-	int temp1 = 1;
-	int temp2 = 0;
-	while(temp1){
-		temp2 = staytMenue(temp2);
-		menue(temp2);
-		temp1 = exitMenue(temp2);
+	int temp = 0;
+	while(1){
+		temp = staytMenue(temp);
+		menue(temp);
+		if(exitMenue(temp)){
+			break;
+		}
 		delay(time);
 	}
-	int temp3 = 1;
 
 	// enter game
 	while(1) {
