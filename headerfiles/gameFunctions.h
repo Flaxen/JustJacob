@@ -31,7 +31,18 @@ void updateTiltPos() {
   }
 }
 
-int xMoveDirection() {
+
+/*
+x- and y- MoveDirection functions
+Written by Alexander Carlsson
+DESC:
+  Return positive, negative, or no movement for both axes depending on tiltPos
+  variables from above. As the tiltPos measures the angle/time AROUND the axes.
+  This is why the y-direction 
+PRE:
+POST:
+*/
+int yMoveDirection() {
   if (xTiltPos > 0) {
     return -1;
   } else if(xTiltPos < 0) {
@@ -40,8 +51,7 @@ int xMoveDirection() {
     return 0;
   }
 }
-
-int yMoveDirection() {
+int xMoveDirection() {
   if (yTiltPos > 0) {
     return 1;
   } else if(yTiltPos < 0) {

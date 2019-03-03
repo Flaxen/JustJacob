@@ -35,6 +35,7 @@ int main(int argc, char *args[]) {
       }
     }
   }
+  free(stringIn);
 
 
   // prints compacted string as ready input array.
