@@ -13,7 +13,7 @@ int main(void) {
 	// initializations
 	spiInit();
 	i2cInit();
-	butensInti();
+	buttonsInit();
 
 	display_init();
 
@@ -36,9 +36,9 @@ int main(void) {
 	int temp1 = 1;
 	int temp2 = 0;
 	while(temp1){
-		temp2 = staytMenue(temp2);
-		menue(temp2);
-		temp1 = exitMenue(temp2);
+		temp2 = stateMenu(temp2);
+		menu(temp2);
+		temp1 = exitMenu(temp2);
 		delay(time);
 	}
 	int temp3 = 1;

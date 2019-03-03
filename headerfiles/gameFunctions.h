@@ -38,9 +38,12 @@ Written by Alexander Carlsson
 DESC:
   Return positive, negative, or no movement for both axes depending on tiltPos
   variables from above. As the tiltPos measures the angle/time AROUND the axes.
-  This is why the y-direction 
+  This is why the yMoveDirection is based on the xTiltPos and vice versa.
 PRE:
+  Board has to lay flat on a surface during bootup as it caibrates 0 degrees to
+  the position it has at startup.
 POST:
+  Return the sign of the current axes direction.
 */
 int yMoveDirection() {
   if (xTiltPos > 0) {
@@ -62,19 +65,23 @@ int xMoveDirection() {
 }
 
 
-int playerX = 0;
-int playerY = 0;
-
 /*
 setPlayerStartPos
+Written by Johanna Jansson
+Last edited by Alexander Carlsson
 DESC:
-  Sets the start coordinates for the player
+  Sets the start coordinates for the player according to settings file.
 PRE:
-The coordinates most place the whole player on screen
+  The whole player model has to fit in the specified starting position. This
+  means that the set coordinates from the x-coordinate to the x+PLAYER_WIDTH
+  coordinate have to be empty and within bounds or the player model won't be
+  drawn. Same applies for the y-coordinate.
 POST:
-  The start coordinates for the upper left corner of the player is set
+  Changes the player x and y variables according to provided settings.
 */
 
+int playerX = 0;
+int playerY = 0;
 void setPlayerStartPos() {
     playerX = START_COORDINATE_X;
     playerY = START_COORDINATE_Y;
@@ -83,14 +90,15 @@ void setPlayerStartPos() {
 
 /*
 killPlayer
+Written by Johanna Jansson
 DESC:
-  takes the player of the board
+  takes the player off the board
 PRE:
   The x and y coordinates for the left upper corner of the player
   needs to be in playerX respectively playerY and the player
-  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and smaller than the screen size
+  PLAYER_WIDTH, PLAYER_HEIGHT needs to be bigger than 0 and smaller than the screen size
 POST:
-  Player is no longer on the screen
+  MAP_CHOICE is cleared at player coordinates. Player is no longer on the screen
 */
 void killPlayer() {
 
@@ -105,14 +113,15 @@ void killPlayer() {
 
 /*
 drawPlayer
+Written by Johanna Jansson
 DESC:
   Places the player on the board
 PRE:
-  The x and y coordinates for the left upper corner of the player
-  needs to be in playerX respectively playerY and the player
-  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and smaller than the screen size
+  The x and y coordinates for the left upper corner of the player needs to be in
+  playerX respectively playerY and the player PLAYER_WIDTH, PLAYER_HEIGHT needs
+  to be bigger than 0 and smaller than the screen size
 POST:
-  Player is placed on the screen
+  MAP_CHOICE is set at player coordinates. Player is placed on the screen
 */
 void drawPlayer(){
 
@@ -122,27 +131,26 @@ void drawPlayer(){
       drawPixel(playerX + i, playerY + j);
     }
   }
-
 }
-
 
 /*
 moveRight
+Written by Johanna Jansson
 DESC:
-  Returns 1 if the player can move right and 0 otherwise
+  Returns 1 if the player can move right. Otherwise 0
 PRE:
   The x and y coordinates for the left upper corner of the player
   needs to be in playerX respectively playerY and the player
-  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+  PLAYER_WIDTH, PLAYER_HEIGHT needs to be bigger than 0 and Smaller than the screen size
 POST:
   Returns true or false if the player is allowed to move or not
 */
 int moveRight(){
   int res = 0;
-  if (playerX + PLAYER_WIDTH < SCREEN_WIDTH){   //Keeps the player from moving of screen
+  if (playerX + PLAYER_WIDTH < SCREEN_WIDTH){                       // Keeps the player from moving off screen
     int i;
     int count = 0;
-    for(i = 0; i < PLAYER_HEIGHT; i++){         //Keeps the player from moving through walls
+    for(i = 0; i < PLAYER_HEIGHT; i++){                             // Keeps the player from moving through walls
       if (readPixel(playerX + PLAYER_WIDTH, playerY + i) == 0){
         count++;
       }
@@ -157,21 +165,22 @@ int moveRight(){
 
 /*
 moveLeft
+Written by Johanna Jansson
 DESC:
-  Returns 1 if the player can move left and 0 otherwise
+  Returns 1 if the player can move left. Otherwise 0
 PRE:
   The x and y coordinates for the left upper corner of the player
   needs to be in playerX respectively playerY and the player
-  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+  PLAYER_WIDTH, PLAYER_HEIGHT needs to be bigger than 0 and Smaller than the screen size
 POST:
   Returns true or false if the player is allowed to move or not
 */
 int moveLeft(){
   int res = 0;
-  if(playerX > 1){                              //Keeps the player from moving of screen
+  if(playerX > 1){                                                  // Keeps the player from moving of screen
     int i;
     int count = 0;
-    for(i = 0; i < PLAYER_HEIGHT; i++){         //Keeps the player from moving through walls
+    for(i = 0; i < PLAYER_HEIGHT; i++){                             // Keeps the player from moving through walls
       if(readPixel(playerX -1, playerY + i) == 0){
         count++;
       }
@@ -184,22 +193,23 @@ int moveLeft(){
 }
 
 /*
-moveUpp
+moveUp
+Written by Johanna Jansson
 DESC:
-  Returns 1 if the player can move up and 0 otherwise
+  Returns 1 if the player can move up. Otherwise 0
 PRE:
   The x and y coordinates for the left upper corner of the player
   needs to be in playerX respectively playerY and the player
-  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+  PLAYER_WIDTH, PLAYER_HEIGHT needs to be bigger than 0 and Smaller than the screen size
 POST:
   Returns true or false if the player is allowed to move or not
 */
-int moveUpp(){
+int moveUp(){
   int res = 0;
-  if(playerY > 0){                              //Keeps the player from moving of screen
+  if(playerY > 0){                                                  // Keeps the player from moving of screen
     int i;
     int count = 0;
-    for(i = 0; i < PLAYER_WIDTH; i++){          //Keeps the player from moving through walls
+    for(i = 0; i < PLAYER_WIDTH; i++){                              // Keeps the player from moving through walls
       if(readPixel(playerX + i, playerY -1) == 0){
         count++;
       }
@@ -214,21 +224,22 @@ int moveUpp(){
 
 /*
 moveDown
+Written by Johanna Jansson
 DESC:
-  Returns 1 if the player can move down and 0 otherwise
+  Returns 1 if the player can move down. Otherwise 0
 PRE:
   The x and y coordinates for the left upper corner of the player
-  needs to be in playerX respectively playerY and the player
-  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+  needs to be in playerX respectively playerY and the player PLAYER_WIDTH,
+  PLAYER_HEIGHT needs to be bigger than 0 and Smaller than the screen size
 POST:
   Returns true or false if the player is allowed to move or not
 */
 int moveDown(){
   int res = 0;
-  if( playerY + PLAYER_HEIGHT < SCREEN_HEIGHT){ //Keeps the player from moving of screen
+  if( playerY + PLAYER_HEIGHT < SCREEN_HEIGHT){                     // Keeps the player from moving of screen
     int i;
     int count = 0;
-    for(i = 0; i < PLAYER_WIDTH; i++){          //Keeps the player from moving through walls
+    for(i = 0; i < PLAYER_WIDTH; i++){                              // Keeps the player from moving through walls
       if(readPixel(playerX + i, playerY + PLAYER_HEIGHT) == 0){
         count++;
       }
@@ -243,10 +254,14 @@ int moveDown(){
 
 /*
 drawMove
+Written by Johanna Jansson
 DESC:
-  Takes the player of the screen moves it to the next position and puts the player back on the screen
+  Takes the player off the screen, moves it to the next position and puts the
+  player back on the screen
 PRE:
-  The x and y coordinates for the left upper corner of the player needs to be in playerX respectively playerY and the player  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+  The x and y coordinates for the left upper corner of the player needs to be in
+  playerX respectively playerY and the player  PLAYER_WIDTH, PLAYER_HEIGHT needs
+  to be bigger than 0 and Smaller than the screen size
 POST:
   Moves the player on the screen if it’s allowed
 */
@@ -254,20 +269,20 @@ void drawMove(int xDirection, int yDirection ){
 
   killPlayer();
 
-  if (xDirection == 1 && moveRight() == 1){ // moves player right
+  if (xDirection == 1 && moveRight() == 1){                         // moves player right
     playerX++;
   }
 
-	else if((xDirection == -1) && moveLeft() == 1) { // moves player left
+	else if((xDirection == -1) && moveLeft() == 1) {                  // moves player left
 		playerX--;
 	}
 
-  if(yDirection == 1 && moveUpp() == 1){ // moves player upp
+  if(yDirection == 1 && moveUp() == 1){                            // moves player up
     playerY--;
 
   }
 
-  else if(yDirection == -1 && moveDown() == 1){ // moves ball down
+  else if(yDirection == -1 && moveDown() == 1){                     // moves player down
     playerY++;
   }
 
@@ -277,12 +292,15 @@ void drawMove(int xDirection, int yDirection ){
 
 /*
 winGame
+Written by Johanna Jansson
 DESC:
   Determines if player has won the game
 PRE:
-  The x and y coordinates for the left upper corner of the player needs to be in playerX respectively playerY and the player  PLAYER_WIDTH, PLAYER_WIDTH needs to be bigger than 0 and Smaller than the screen size
+  The x and y coordinates for the left upper corner of the player needs to be in
+  playerX respectively playerY and the player  PLAYER_WIDTH, PLAYER_HEIGHT needs
+  to be bigger than 0 and Smaller than the screen size
 POST:
-  Returns 1 if player is won and 0 otherwise
+  Returns 1 if player has won and 0 otherwise
 */
 
 int winGame(){
@@ -291,27 +309,3 @@ int winGame(){
   }
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// this comment is intentional
