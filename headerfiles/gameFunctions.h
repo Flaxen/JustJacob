@@ -38,7 +38,7 @@ Written by Alexander Carlsson
 DESC:
   Return positive, negative, or no movement for both axes depending on tiltPos
   variables from above. As the tiltPos measures the angle/time AROUND the axes.
-  This is why the y-direction 
+  This is why the y-direction
 PRE:
 POST:
 */
@@ -292,9 +292,22 @@ int winGame(){
   return 0;
 }
 
-
-
-
+/*
+awaitAndRestart
+Written by Johanna Jansson
+DESC:
+  Restarts the game when the player pushes butten 2, 3 or 4
+PRE:
+  n/a
+POST:
+  Returns 1 if player pushes butten 2, 3 or 4 and 0 otherwise
+*/
+int awaitAndRestart(){
+  if(getbuten()){
+    return 1;
+  }
+  return 0;
+}
 
 
 

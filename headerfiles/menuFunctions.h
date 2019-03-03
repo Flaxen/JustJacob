@@ -16,7 +16,7 @@ int time = 0;
 void uppdatMenue() {
   // Decreases the delay time
   if(time > 0){
-    time--;
+    time == 0;
   }
 }
 
@@ -25,7 +25,7 @@ void menue(int position) {
 	display_string(0, "");
 	display_string(1, "Play");
 	display_string(2, "Settings");
-	display_string(3, "Exit");
+	display_string(3, "");
 
 	if (position == 0){
 		display_string(1, ">Play");
@@ -33,10 +33,6 @@ void menue(int position) {
 
 	else if(position == 1){
 		display_string(2, ">Settings");
-	}
-
-	else if (position == 2){
-		display_string(3, ">Exit");
 	}
 
 	display_update();
@@ -48,7 +44,7 @@ int staytMenue(int present){
 		present++;
     time = 1000000;
 	}
-	if (present > 2){
+	if (present > 1){
 		present = 0;
 	}
 	return present;
@@ -57,6 +53,37 @@ int staytMenue(int present){
 int exitMenue(int position){
   // Exits menu
 	if(position == 0 && getbuten() == 2){
+		return 1;
+	}
+	return 0;
+}
+
+
+void settings(int position) {
+  // Displays the settings
+	char rowZero[] = "Player size axb";
+	rowZero[12] = PLAYER_WIDTH + '0';
+	rowZero[14] = PLAYER_WIDTH + '0';
+	display_string(0, rowZero);
+	display_string(1, "Play");
+	display_string(2, "Settings");
+	display_string(3, "");
+
+	if (position == 0){
+		display_string(1, ">Play");
+	}
+
+	else if(position == 1){
+		display_string(2, ">Settings");
+	}
+
+	display_update();
+}
+
+
+int enterSettings(int position){
+  // Enter settings
+	if(position == 1 && getbuten() == 2){
 		return 1;
 	}
 	return 0;
