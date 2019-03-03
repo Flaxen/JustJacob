@@ -17,76 +17,93 @@ int main(void) {
 
 	display_init();
 
+	START:
+	// set the map to logo for intro screen
+	setMap(logo);
+
+	// dog runs in and "eats" logo
+	int dogX = 129;
+	int dogY = 5;
+	while(dogX > (-TILE_WIDTH)) {
+		animateDog(dogX, dogY, 180000);
+		dogX -= 4;
+	}
+
+	MENU:
+	delay(1000000);
+	// enter menu
+	int menuRow = 0;
 	while(1){
-
-		// set the map to logo for intro screen
-		setMap(logo);
-
-		// dog runs in and "eats" logo
-		int dogX = 129;
-		int dogY = 5;
-		while(dogX > (-TILE_WIDTH)) {
-			animateDog(dogX, dogY, 180000);
-			dogX -= 4;
+		menuRow = stateMenu(menuRow);
+		menu(menuRow);
+		if(exitMenu(menuRow)){
+			goto GAME;
 		}
+		if(enterSettings(menuRow)){
+			goto SETTINGS;
 
-		// enter menu
-		int menuRow = 0;
-		while(1){
-			menuRow = staytMenue(menuRow);
-			menue(menuRow);
-			if(exitMenue(menuRow)){
-				break;
-			}
-			if(enterSettings(menuRow)){
-				settings(menuRow);
-				delay(1000000);
-			}
-			delay(time);
 		}
+		delay(1000000);
+	}
 
-		// initialize actually playable map
-		setMap(map4);
-		setPlayerStartPos();
-
-		// enter game
-		while(1) {
-
-			updateTiltPos();
-			drawMove(xMoveDirection(), yMoveDirection());
-			display_image(0, MAP_CHOICE);
-
-			if(winGame()){
-				break;
-			}
-			delay(150000);
+	SETTINGS:
+	delay(1000000);
+	// enter settings
+	int statesettingsRow = 0;
+	while(1){
+		statesettingsRow = stateSettings(statesettingsRow);
+		settings(statesettingsRow);
+		if(exitSettings(statesettingsRow)){
+			goto MENU;
 		}
+		delay(1000000);
+	}
 
-		// empty screen for last screen
-		setMap(emptyMap);
 
-		// dog runs in and stops in middle
-		dogX = 129;
-		dogY = 10;
-		while(dogX > (75)) {
-			animateDog(dogX, dogY, 180000);
-			dogX -= 4;
-		}
+	GAME:
+	// initialize actually playable map
+	setMap(map4);
+	setPlayerStartPos();
 
-		// place speaking bubble
-		drawTile(dogX-(3*TILE_WIDTH)+7, dogY-8, bubbleTile1);
-		drawTile(dogX-(2*TILE_WIDTH)+7, dogY-8, bubbleTile2);
-		drawTile(dogX-TILE_WIDTH+7, dogY-8, bubbleTile3);
-		drawTile(dogX, dogY, dogIdleTile);
+
+	// enter game
+	while(1) {
+		updateTiltPos();
+		drawMove(xMoveDirection(), yMoveDirection());
 		display_image(0, MAP_CHOICE);
 
-		while (1) {
-			if(awaitAndRestart()){
-				break;
-			}
+		if(winGame()){
+			break;
 		}
-
+		delay(150000);
 	}
+
+	// empty screen for last screen
+	setMap(emptyMap);
+
+	// dog runs in and stops in middle
+	dogX = 129;
+	dogY = 10;
+	while(dogX > (75)) {
+		animateDog(dogX, dogY, 180000);
+		dogX -= 4;
+	}
+
+	// place speaking bubble
+	drawTile(dogX-(3*TILE_WIDTH)+7, dogY-8, bubbleTile1);
+	drawTile(dogX-(2*TILE_WIDTH)+7, dogY-8, bubbleTile2);
+	drawTile(dogX-TILE_WIDTH+7, dogY-8, bubbleTile3);
+	drawTile(dogX, dogY, dogIdleTile);
+	display_image(0, MAP_CHOICE);
+
+	// restarts the game
+	while (1) {
+		if(awaitAndRestart()){
+			goto START;
+		}
+	}
+
+
 
 	return 0;
 }

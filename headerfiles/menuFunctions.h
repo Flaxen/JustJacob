@@ -15,25 +15,6 @@ int getButton(){
 }
 
 /*
-menuChoiceDelay
-Written by Johanna Jansson
-DESC:
-	Acts as a delay for the cycling of menu choices.
-PRE:
-	n/a
-POST:
-	Sets time to 0, allowing another meny choice cycle to be mande
-*/
-int time = 0;
-void menuChoiceDelay() {
-  // Decreases the delay time
-  if(time > 0){
-    time == 0;
-  }
-}
-
-
-/*
 menu
 Written by Johanna Jansson
 DESC:
@@ -47,8 +28,8 @@ POST:
 void menu(int position) {
   // Displays the menu
 	display_string(0, "");
-	display_string(1, "Play");
-	display_string(2, "Settings");
+	display_string(1, " Play");
+	display_string(2, " Settings");
 	display_string(3, "");
 
 	if (position == 0){
@@ -76,7 +57,6 @@ int stateMenu(int position){
   // Changes the state in the menu
 	if(getButton() == 4){
 		position++;
-    time = 1000000;
 	}
 	if (position > 1){
 		position = 0;
@@ -103,32 +83,99 @@ int exitMenu(int position){
 	return 0;
 }
 
-
+/*
+settings
+Written by Johanna Jansson
+DESC:
+	Displays and cycles cursor for the settings. Updates display
+	according to provided position argument
+PRE:
+	n/a
+POST:
+	Displays a variation of strings on screen based on input.
+*/
 void settings(int position) {
   // Displays the settings
-	char rowZero[] = "Player size axb";
-	rowZero[12] = PLAYER_WIDTH + '0';
-	rowZero[14] = PLAYER_WIDTH + '0';
-	display_string(0, rowZero);
-	display_string(1, "Play");
-	display_string(2, "Settings");
-	display_string(3, "");
+	char rowZero[] = " Player size -x-";
+	rowZero[13] = PLAYER_WIDTH + '0';
+	rowZero[15] = PLAYER_WIDTH + '0';
+
+	char rowOne[] = " Map: map-";
+
+	display_string(0, "");
+	display_string(1, rowZero);
+	display_string(2, rowOne);
+	display_string(3, " Exit");
 
 	if (position == 0){
-		display_string(1, ">Play");
+		rowZero[0] = '>';
+		display_string(1, rowZero);
 	}
 
 	else if(position == 1){
-		display_string(2, ">Settings");
+		rowOne[0] = '>';
+		display_string(2, rowOne);
 	}
+	else if(position == 2){
+		display_string(3, ">Exit");
+	}
+
 
 	display_update();
 }
 
+/*
+stateMenu
+Written by Johanna Jansson
+DESC:
+	Keeps track of and returns the settings position.
+PRE:
+	Buttons initialized?
+POST:
+	Returnes an updated settings position.
+*/
+int stateSettings(int position){
+  // Changes the state in the menu
+	if(getButton() == 4){
+		position++;
+	}
+	if (position > 2){
+		position = 0;
+	}
+	return position;
+}
 
+/*
+enterSettings
+Written by Johanna Jansson
+DESC:
+	Returns 1 if the player has chosen to enter settings.
+PRE:
+	Buttons initialized?
+POST:
+	Returns "1" or "0".
+*/
 int enterSettings(int position){
   // Enter settings
 	if(position == 1 && getButton() == 2){
+		return 1;
+	}
+	return 0;
+}
+
+/*
+exitSettings
+Written by Johanna Jansson
+DESC:
+	Returns 1 if the player has chosen to leave the settings.
+PRE:
+	Buttons initialized?
+POST:
+	Returns "1" or "0".
+*/
+int exitSettings(int position){
+  // Exits menu
+	if(position == 2 && getButton() == 2){
 		return 1;
 	}
 	return 0;

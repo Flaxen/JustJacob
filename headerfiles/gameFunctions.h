@@ -320,7 +320,7 @@ POST:
   Returns 1 if player pushes butten 2, 3 or 4 and 0 otherwise
 */
 int awaitAndRestart(){
-  if(getbuten()){
+  if(getButton()){
     return 1;
   }
   return 0;
