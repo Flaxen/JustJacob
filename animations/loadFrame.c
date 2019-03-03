@@ -26,7 +26,7 @@ void main() {
 
   fp = fopen(FILENAME, "r");
 
-  // reads input from file while ignoring new lines 
+  // reads input from file while ignoring new lines
   char c;
   for(int i = 0; i < TILE_HEIGHT; i++) {
     for (int j = 0; j < TILE_WIDTH; j++) {
@@ -49,9 +49,4 @@ void main() {
     }
     printf("},\n{");
   }
-
-
-
-
-
 }
