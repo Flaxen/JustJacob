@@ -56,12 +56,29 @@ int main(void) {
 		if(exitSettings(statesettingsRow)){
 			goto MENU;
 		}
+		if(enterMap(statesettingsRow)){
+			goto MAP;
+		}
+		delay(1000000);
+	}
+
+	MAP:
+	delay(1000000);
+	// enter Map
+	int mapRow = 0;
+	while(1){
+		mapRow = stateMap(mapRow);
+		map(mapRow);
+		if(exitMap(mapRow)){
+			goto SETTINGS;
+		}
+		changMap(mapRow);
 		delay(1000000);
 	}
 
 	GAME:
 	// initialize actually playable map
-	setMap(maps[1]);
+	setMap(maps[currentMap]);
 	setPlayerStartPos();
 
 

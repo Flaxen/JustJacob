@@ -83,6 +83,7 @@ int exitMenu(int position){
 	return 0;
 }
 
+int currentMap = 4;
 /*
 settings
 Written by Johanna Jansson
@@ -101,6 +102,7 @@ void settings(int position) {
 	rowZero[15] = PLAYER_WIDTH + '0';
 
 	char rowOne[] = " Map: map-";
+	rowOne[9] = currentMap + '0';
 
 	display_string(0, "");
 	display_string(1, rowZero);
@@ -125,7 +127,7 @@ void settings(int position) {
 }
 
 /*
-stateMenu
+stateSettings
 Written by Johanna Jansson
 DESC:
 	Keeps track of and returns the settings position.
@@ -176,6 +178,117 @@ POST:
 int exitSettings(int position){
   // Exits menu
 	if(position == 2 && getButton() == 2){
+		return 1;
+	}
+	return 0;
+}
+
+/*
+map
+Written by Johanna Jansson
+DESC:
+	Displays and cycles cursor for the map. Updates display
+	according to provided position argument
+PRE:
+	n/a
+POST:
+	Displays a variation of strings on screen based on input.
+*/
+void map(int position) {
+  // Displays the map
+
+	char row[] = " Map: map-";
+	row[9] = currentMap + '0';
+
+	display_string(0, "");
+	display_string(1, row);
+	display_string(2, " Exit");
+	display_string(3, "");
+
+	if (position == 0){
+		row[0] = '>';
+		display_string(1, row);
+	}
+
+	else if(position == 1){
+		display_string(2, ">Exit");
+	}
+
+
+	display_update();
+}
+
+/*
+stateMap
+Written by Johanna Jansson
+DESC:
+	Keeps track of and returns the settings position.
+PRE:
+	Buttons initialized?
+POST:
+	Returnes an updated settings position.
+*/
+int stateMap(int position){
+  // Changes the state in the menu
+	if(getButton() == 4){
+		position++;
+	}
+	if (position > 1){
+		position = 0;
+	}
+	return position;
+}
+
+/*
+enterMap
+Written by Johanna Jansson
+DESC:
+	Chang map.
+PRE:
+	Buttons initialized?
+POST:
+	Chang map.
+*/
+int enterMap(int position){
+  // Enter map
+	if(position == 1 && getButton() == 2){
+		return 1;
+	}
+	return 0;
+}
+
+/*
+changMap
+Written by Johanna Jansson
+DESC:
+	Chang map.
+PRE:
+	Buttons initialized?
+POST:
+	Chang map.
+*/
+void changMap(int position){
+	if(position == 0 && getButton() == 2){
+		currentMap++;
+	}
+	if(currentMap > 5){
+		currentMap = 0;
+	}
+}
+
+/*
+exitMap
+Written by Johanna Jansson
+DESC:
+	Returns 1 if the player has chosen to leave the map.
+PRE:
+	Buttons initialized?
+POST:
+	Returns "1" or "0".
+*/
+int exitMap(int position){
+  // Exits menu
+	if(position == 1 && getButton() == 2){
 		return 1;
 	}
 	return 0;
