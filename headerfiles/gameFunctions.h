@@ -5,6 +5,7 @@
 
 /*
 updateTiltPos
+Written by Alexander Carlsson
 DESC:
   Keeps track of the angle of the board.
   NOTE: yTiltPos gets +1 as the sensor data for that axes for some reason is

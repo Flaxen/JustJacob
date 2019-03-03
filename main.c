@@ -6,20 +6,33 @@
 #include "headerfiles/LSM6DS3addresses.h"
 #include "headerfiles/gameFunctions.h"
 #include "headerfiles/menuFunctions.h"
+#include "animations/animationFunctions.h"
 
 int main(void) {
 
+	// initializations
 	spiInit();
 	i2cInit();
 	butensInti();
 
 	display_init();
 
+	// set the map to logo for intro screen
+	setMap(logo);
 
+	// dog runs in and "eats" logo
+	int dogX = 129;
+	int dogY = 5;
+	while(dogX > (-TILE_WIDTH)) {
+		animateDog(dogX, dogY, 180000);
+		dogX -= 4;
+	}
 
+	// initialize actually playable map
+	setMap(map4);
 	setPlayerStartPos();
 
-
+	// enter menu
 	int temp1 = 1;
 	int temp2 = 0;
 	while(temp1){
@@ -29,6 +42,8 @@ int main(void) {
 		delay(time);
 	}
 	int temp3 = 1;
+
+	// enter game
 	while(1) {
 
 		updateTiltPos();
@@ -39,14 +54,27 @@ int main(void) {
 			break;
 		}
 		delay(150000);
-
 	}
 
-	display_string(0, "");
-	display_string(1, "YOU WON!!!!!");
-	display_string(2, "");
-	display_string(3, "");
-	display_update();
+	// empty screen for last screen
+	setMap(emptyMap);
+
+	// dog runs in and stops in middle
+	dogX = 129;
+	dogY = 10;
+	while(dogX > (75)) {
+		animateDog(dogX, dogY, 180000);
+		dogX -= 4;
+	}
+
+	// place speaking bubble
+	drawTile(dogX-(3*TILE_WIDTH)+7, dogY-8, bubbleTile1);
+	drawTile(dogX-(2*TILE_WIDTH)+7, dogY-8, bubbleTile2);
+	drawTile(dogX-TILE_WIDTH+7, dogY-8, bubbleTile3);
+	drawTile(dogX, dogY, dogIdleTile);
+	display_image(0, MAP_CHOICE);
+
+	while(1);
 
 	return 0;
 }
