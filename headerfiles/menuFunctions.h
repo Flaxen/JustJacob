@@ -96,11 +96,11 @@ POST:
 */
 void settings(int position) {
   // Displays the settings
-	char rowZero[] = " Player size -x-";
-	rowZero[13] = PLAYER_WIDTH + '0';
-	rowZero[15] = PLAYER_WIDTH + '0';
+	char rowZero[] = " Player speed: ";
+	rowZero[14] = PLAYER_SPEED + '0';
+	// rowZero[15] = PLAYER_WIDTH + '0';
 
-	char rowOne[] = " Map: map-";
+	char rowOne[] = " Map: map:";
 
 	display_string(0, "");
 	display_string(1, rowZero);
