@@ -75,6 +75,10 @@ int main(void) {
 		if(winGame()){
 			break;
 		}
+		// rerstarts the game
+		if(getButton() == 1){
+			goto START;
+		}
 		delay(150000);
 	}
 
