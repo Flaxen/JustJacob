@@ -1,11 +1,11 @@
 // #include <stdint.h>
-#include "customMapMaker/customMaps.c"
+// #include "customMapMaker/customMaps.c"
 
 // Player Settings
 const int PLAYER_WIDTH = 2;
 const int PLAYER_HEIGHT = 2;
 
-const int PLAYER_SPEED = 1;
+int PLAYER_SPEED = 3;
 
 // Screen Settings
 const int SCREEN_WIDTH = 128;
