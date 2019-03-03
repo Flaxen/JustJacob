@@ -97,8 +97,8 @@ POST:
 */
 void settings(int position) {
   // Displays the settings
-	char rowZero[] = " Player speed: ";
-	rowZero[14] = PLAYER_SPEED + '0';
+	char rowZero[] = " Player speed: -";
+	rowZero[15] = PLAYER_SPEED + '0';
 	// rowZero[15] = PLAYER_WIDTH + '0';
 
 	char rowOne[] = " Map: map-";
@@ -288,6 +288,117 @@ POST:
 */
 int exitMap(int position){
   // Exits menu
+	if(position == 1 && getButton() == 2){
+		return 1;
+	}
+	return 0;
+}
+
+/*
+speed
+Written by Johanna Jansson
+DESC:
+	Displays and cycles cursor for the speed. Updates display
+	according to provided position argument
+PRE:
+	n/a
+POST:
+	Displays a variation of strings on screen based on input.
+*/
+void speed(int position) {
+  // Displays the map
+
+	char row[] = " Speed: -";
+	row[8] = PLAYER_SPEED + '0';
+
+	display_string(0, "");
+	display_string(1, row);
+	display_string(2, " Exit");
+	display_string(3, "");
+
+	if (position == 0){
+		row[0] = '>';
+		display_string(1, row);
+	}
+
+	else if(position == 1){
+		display_string(2, ">Exit");
+	}
+
+
+	display_update();
+}
+
+/*
+stateSpeed
+Written by Johanna Jansson
+DESC:
+	Keeps track of and returns the speed position.
+PRE:
+	Buttons initialized?
+POST:
+	Returnes an updated speed position.
+*/
+int stateSpeed(int position){
+  // Changes the state in the speed
+	if(getButton() == 4){
+		position++;
+	}
+	if (position > 1){
+		position = 0;
+	}
+	return position;
+}
+
+/*
+enterSpeed
+Written by Johanna Jansson
+DESC:
+	Chang speed.
+PRE:
+	Buttons initialized?
+POST:
+	Chang speed.
+*/
+int enterSpeed(int position){
+  // Enter map
+	if(position == 0 && getButton() == 2){
+		return 1;
+	}
+	return 0;
+}
+
+/*
+changSpeed
+Written by Johanna Jansson
+DESC:
+	Chang speed.
+PRE:
+	Buttons initialized?
+POST:
+	Chang speed.
+*/
+void changSpeed(int position){
+	if(position == 0 && getButton() == 2){
+		PLAYER_SPEED++;
+	}
+	if(PLAYER_SPEED > 5){
+		PLAYER_SPEED = 1;
+	}
+}
+
+/*
+exitSpeed
+Written by Johanna Jansson
+DESC:
+	Returns 1 if the player has chosen to leave the speed.
+PRE:
+	Buttons initialized?
+POST:
+	Returns "1" or "0".
+*/
+int exitSpeed(int position){
+  // Exits speed
 	if(position == 1 && getButton() == 2){
 		return 1;
 	}

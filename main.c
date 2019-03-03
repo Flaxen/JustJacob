@@ -64,6 +64,9 @@ int main(void) {
 		if(enterMap(statesettingsRow)){
 			goto MAP;
 		}
+		if(enterSpeed(statesettingsRow)){
+			goto SPEED;
+		}
 		delay(1000000);
 	}
 
@@ -78,6 +81,20 @@ int main(void) {
 			goto SETTINGS;
 		}
 		changMap(mapRow);
+		delay(1000000);
+	}
+
+	SPEED:
+	delay(1000000);
+	// enter Map
+	int speedRow = 0;
+	while(1){
+		speedRow = stateSpeed(speedRow);
+		speed(speedRow);
+		if(exitSpeed(speedRow)){
+			goto SETTINGS;
+		}
+		changSpeed(speedRow);
 		delay(1000000);
 	}
 
