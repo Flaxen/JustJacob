@@ -59,10 +59,9 @@ int main(void) {
 		delay(1000000);
 	}
 
-
 	GAME:
 	// initialize actually playable map
-	setMap(map4);
+	setMap(maps[1]);
 	setPlayerStartPos();
 
 

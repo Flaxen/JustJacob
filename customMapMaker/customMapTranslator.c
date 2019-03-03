@@ -43,7 +43,7 @@ int main(int argc, char *args[]) {
     *(tempArr+i) = 0;                                         // Fills tempArr with zeroes required for future adding
   }
 
-  // makes string into compact 
+  // makes string into compact
   for (int k = 0; k < 4; k++) {
     for (int i = 0; i < 128; i++) {
       for (int j = 0; j < 8; j++) {
