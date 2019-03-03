@@ -1,5 +1,15 @@
 #include <stdint.h>
 
+/*
+Contains tiles and functions for tile based animations.
+All contents in this file are written by Alexander Carlsson
+
+NOTE:
+  The size specification of the tiles is not properly working with global
+  variables and sould probably be fixed
+*/
+
+
 int dogIdleTile[21][23] = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
@@ -147,6 +157,7 @@ int bubbleTile3[21][23] = {
 
 /*
 drawTile
+Written by Alexander Carlsson
 DESC:
   Draws the tile provided. The top left corner of the tileframe is considered the
   starting position of the draw. Functionality is achieved by drawing pixels at
@@ -176,6 +187,7 @@ void drawTile(int xPos, int yPos, int tileMap[21][23]) {
 
 /*
 killTile
+Written by Alexander Carlsson
 DESC:
   Removes the tile provided. The top left corner of the tileframe is considered the
   starting position of the remove. Functionality is achieved by killing pixels at
@@ -195,6 +207,7 @@ void killTile(int xPos, int yPos, int tileMap[21][23]) {
         // does not allow pixels to be drawn out of bounds
         if((xPos + j) < SCREEN_WIDTH && (xPos + j) >= 0 && (yPos + i) < SCREEN_HEIGHT && (yPos + i) >= 0 ) {
 
+          // kills pixels in a 3 wide column to allow intro dog to eat the logo
           killPixel((xPos + j), (yPos + i));
           killPixel((xPos + j+1), (yPos + i));
           killPixel((xPos + j+2), (yPos + i));
@@ -208,6 +221,7 @@ void killTile(int xPos, int yPos, int tileMap[21][23]) {
 
 /*
 animateDog
+Written by Alexander Carlsson
 DESC:
   The animation cycle of the running dog. draws and removes the various frames
   in order to represent a running motion.

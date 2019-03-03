@@ -6,8 +6,6 @@
 #define DISPLAY_COMMAND_DATA PORTFbits.RF4
 #define DISPLAY_RESET PORTGbits.RG9
 
-
-
 #define DISPLAY_CHANGE_TO_COMMAND_MODE (PORTFCLR = 0x10)
 #define DISPLAY_CHANGE_TO_DATA_MODE (PORTFSET = 0x10)
 
@@ -170,11 +168,6 @@ static const uint8_t const font[] = {
 	0, 120, 68, 66, 68, 120, 0, 0,
 };
 
-uint8_t icon[] = {
-
-0, 0, 0, 0, 0, 0, 0, 0, 16, 48, 40, 72, 72, 68, 132, 132, 2, 2, 12, 16, 224, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 4, 4, 2, 2, 242, 66, 242, 2, 242, 210, 146, 2, 242, 130, 2, 242, 130, 2, 242, 146, 242, 2, 114, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 8, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 128, 0, 3, 3, 4, 4, 8, 56, 48, 65, 65, 138, 156, 32, 64, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 248, 12, 4, 2, 2, 2, 66, 6, 4, 24, 112, 192, 192, 96, 48, 24, 8, 12, 0, 0, 0, 16, 48, 48, 80, 144, 144, 16, 14, 1, 1, 14, 16, 144, 144, 80, 48, 48, 16, 0, 0, 0, 0, 1, 1, 2, 3, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 224, 128, 0, 0, 0, 192, 96, 16, 96, 64, 64, 64, 64, 64, 96, 48, 16, 248, 128, 128, 128, 129, 2, 2, 2, 4, 4, 4, 8, 8, 16, 16, 8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 1, 1, 0, 0, 0, 128, 128, 192, 112, 30, 7, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 48, 0, 0, 0, 0, 0, 0, 32, 60, 19, 8, 8, 4, 4, 8, 8, 19, 28, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 57, 35, 98, 194, 131, 0, 0, 1, 3, 3, 1, 65, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 143, 228, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 7, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, 8, 24, 48, 96, 192, 128, 0, 0, 255, 0,
-};
-
 void spiInit() {
 	/* Output pins for display signals */
 	PORTF = 0xFFFF;
@@ -253,6 +246,7 @@ void display_string(int line, char *s) {
 			textbuffer[line][i] = ' ';
 }
 
+// Last edited by Alexander Carlsson
 void display_image(int x, const uint8_t *data) {
 	int i, j;
 
@@ -296,6 +290,17 @@ void display_update() {
 	}
 }
 
+
+/*
+drawPixel
+Written by Alexander Carlsson
+DESC:
+	Draws a pixel on the currently chosen map using provided x and y coordinates.
+PRE:
+	x and y coordinates are within bounds of screen.
+POST:
+	Sets values in MAP_CHOICE according to provided x and y coordinates.
+*/
 void drawPixel(int x, int y) {
 	while(y >= 8) {
 		x += 128;
@@ -304,6 +309,20 @@ void drawPixel(int x, int y) {
 	MAP_CHOICE[x] |= (1 << (y));
 }
 
+
+/*
+setMap
+Written by Alexander Carlsson
+DESC:
+	Sets the new choice of map to be drawn when display_image(n, MAP_CHOICE) gets
+	called. Maps are found in "customMapMaker/customMaps.c"
+PRE:
+	Provided argument "map" is a one dimensional array of the correct size. Can
+	be generated from images using "customMapMaker/customMapTranslator"
+POST:
+	Writes over MAP_CHOICE with provided map array, effectively changing the
+	choice of map.
+*/
 void setMap(uint8_t map[]) {
 	int i;
 	for (i = 0; i < 128*4; i++) {
@@ -311,6 +330,17 @@ void setMap(uint8_t map[]) {
 	}
 }
 
+
+/*
+drawPixel
+Written by Johanna Jansson
+DESC:
+	Removes a pixel from the currently chosen map using provided x and y coordinates.
+PRE:
+	x and y coordinates are within bounds of screen.
+POST:
+	Clears values in MAP_CHOICE according to provided x and y coordinates.
+*/
 void killPixel(int x, int y) {
 	while(y >= 8) {
 		x += 128;
@@ -319,7 +349,18 @@ void killPixel(int x, int y) {
 	MAP_CHOICE[x] &= ~(1 << (y));
 }
 
-// kontrolerar om en pixel är tend retunerar 0 om pixel är av och ett värde anars
+
+/*
+readPixel
+Written by Johanna Jansson
+DESC:
+	Read a coordinate on the currently chosen map using provided x and y coordinates
+	and returns the value of the provided coordinate.
+PRE:
+	x and y coordinates are within bounds of screen.
+POST:
+	Returns 0 if pixel is empty and "non zero" if pixel is lit.
+*/
 int readPixel(int x, int y) {
 	while(y >= 8) {
 		x += 128;
@@ -329,12 +370,22 @@ int readPixel(int x, int y) {
 }
 
 
+/*
+displayTest
+Written by Alexander Carlsson
+DESC:
+	Tests the display and collisions by drawing a pixel in (0,0) and travelling,
+	bouncing around the screen, drawing a line where it has travelled.
+PRE:
+	n/a
+POST:
+	Canges values in MAP_CHOICE according path traversed.
+*/
 int x = 1;
 int xRight = 1;
 
 int y = 1;
 int yDown = 1;
-
 void displayTest() {
 	if(x >= 127) {
 		xRight = 0;

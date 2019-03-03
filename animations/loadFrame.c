@@ -5,11 +5,12 @@
 
 /*
 main
+Written by Alexander Carlsson
 DESC:
   Loads bit array from .txt file into frameArr, removing any characters that are
   not '0' or '1', effectively removing "new line" characters and the like.
-  This function should be commented out or renamed during runtime of the full
-  program and has to be used separetly using the command line for proper use.
+  Note that this file should be run in a command line seperately from the
+  main program.
 PRE:
   FILENAME variable is changed to the corresponding file you wish to load.
 POST:
@@ -25,6 +26,7 @@ void main() {
 
   fp = fopen(FILENAME, "r");
 
+  // reads input from file while ignoring new lines 
   char c;
   for(int i = 0; i < TILE_HEIGHT; i++) {
     for (int j = 0; j < TILE_WIDTH; j++) {

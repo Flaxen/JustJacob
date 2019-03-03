@@ -47,7 +47,7 @@ int main(void) {
 	while(1) {
 
 		updateTiltPos();
-		drawMove(yMoveDirection(), xMoveDirection());
+		drawMove(xMoveDirection(), yMoveDirection());
 		display_image(0, MAP_CHOICE);
 
 		if(winGame()){
