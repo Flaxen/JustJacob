@@ -6,17 +6,14 @@ array used for the I/O shield display.
 
 This is how to properly use the customMapMaker:
 
-DISCLAIMER:
-  Values in these files are hard coded for 128x32 images -> 128x4 arrays and if you wish to use
-  any other sizes for other displays these values has to be changed manually.
-
-Go to https://www.dcode.fr/binary-image and upload your 128x32 image.
+Go to "https://www.dcode.fr/binary-image" and upload your image. The image has to be the same size
+as the screen or scaled to the screen size.
 There are plenty of setting which are summed up below:
 
   "Width of picture"
     Sets the width of the converted picture.
-    As you want your picture to remain 128x32 you want to choose "ORIGINAL SIZE"
-    or a "CUSTOM WIDTH" of 128.
+    As you want your picture to remain 128x32(or whatever screen size you have) you want to choose "ORIGINAL SIZE"
+    or a "CUSTOM WIDTH" of a value equal to your SCREEN_WIDTH found in settings.h file.
 
   "Threshold Black/White"
     This has always been left on 50%
@@ -34,8 +31,10 @@ After choosing settings you are now ready to hit convert.
 Copy the bitmap provided in the results window on the left and copy the contents
 into the "customMap.txt" file.
 
-With that done however you are ready to open your command line to compile and run the "customMapTranslator.c" file
-using you C compiler. The program will print your converted array contents.
+With that done you are ready to open your command line to compile and run the "customMapTranslator.c" file
+using your C compiler. The program will print your converted array contents.
 
 These contents are now ready to be pasted into an array in the "customMaps.c" file where there are a couple
 of pre-uploaded ones.
+
+Newly added maps are not automatically added to the menu so you may have to write over the pre-uploaded maps.

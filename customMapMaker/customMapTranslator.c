@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include "../settings.h"
+
 #define FILENAME "customMap.txt"
 
 /*
@@ -17,10 +19,19 @@ PRE:
 POST:
   Prints copy-ready array contents of imported map
 */
+
+/*
+following variables specify the amount of rows to be compacted into one row.
+For instance the I/O shield makes 4 ROWS out of the provided 32 by merging COLLUMNS of size 8
+*/
+int ROWS_WHEN_DONE = 4;
+int COLLUMN_TO_MERGE_SIZE = 8;
+
+
 int main(int argc, char *args[]) {
 
-  uint8_t tempArr[128*4];
-  int len = 128*8*4;
+  uint8_t tempArr[SCREEN_WIDTH*ROWS_WHEN_DONE];
+  int len = SCREEN_WIDTH*COLLUMN_TO_MERGE_SIZE*ROWS_WHEN_DONE;
   short *stringIn = malloc(len * sizeof(short));              // Allocates string to heap due to big input data
 
   char file_name[] = FILENAME;
@@ -39,16 +50,17 @@ int main(int argc, char *args[]) {
   }
   fclose(filePointer);                                        // Closes file as we're done reading from it
 
-  for (int i = 0; i < 128*4; i++) {
+  for (int i = 0; i < SCREEN_WIDTH*ROWS_WHEN_DONE; i++) {
     *(tempArr+i) = 0;                                         // Fills tempArr with zeroes required for future adding
   }
 
-  // makes string into compact
-  for (int k = 0; k < 4; k++) {
-    for (int i = 0; i < 128; i++) {
-      for (int j = 0; j < 8; j++) {
+  // makes string into compact string for display
+  for (int k = 0; k < ROWS_WHEN_DONE; k++) {
+    for (int i = 0; i < SCREEN_WIDTH; i++) {
+      for (int j = 0; j < COLLUMN_TO_MERGE_SIZE; j++) {
 
-        tempArr[i+(k*128)] += ((stringIn[128*8*k+(i+128*j)])*(1<<j));
+        tempArr[i+(k*SCREEN_WIDTH)] +=
+            ((stringIn[SCREEN_WIDTH*COLLUMN_TO_MERGE_SIZE*k+(i+SCREEN_WIDTH*j)])*(1<<j));
 
       }
     }
@@ -57,11 +69,11 @@ int main(int argc, char *args[]) {
 
   // prints compacted string as ready input array.
   int printedValues = 0;
-  for (int i = 0; i < 128*4; i++) {
+  for (int i = 0; i < SCREEN_WIDTH*ROWS_WHEN_DONE; i++) {
     printf("%d, ", tempArr[i]);
     printedValues++;
   }
-  printf("\n\nPrinted values: %d\n", printedValues);
+  printf("\n\nPrinted values(new array size): %d\n", printedValues);
 
   return 0;
 }
