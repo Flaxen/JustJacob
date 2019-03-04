@@ -18,42 +18,72 @@ int getButton(){
 menu
 Written by Johanna Jansson
 DESC:
-	Displays and cycles cursor for the main(and only) menu. Updates display
-	according to provided position argument
+	Displays and cycles cursor for the menu and settings. Updates display
+	according to provided page and position argument
 PRE:
 	n/a
 POST:
 	Displays a variation of strings on screen based on input.
 */
-void menu(int position) {
-  // Displays the menu
-	display_string(0, "");
-	display_string(1, " Play");
-	display_string(2, " Settings");
-	display_string(3, "");
+int currentMap = 4;
+void menu(int page, int position) {
+  if(page == 0){
+		// Displays the menu
+		display_string(0, "");
+		display_string(1, " Play");
+		display_string(2, " Settings");
+		display_string(3, "");
 
-	if (position == 0){
-		display_string(1, ">Play");
+		if (position == 0){
+			display_string(1, ">Play");
+		}
+
+		else if(position == 1){
+			display_string(2, ">Settings");
+		}
 	}
 
-	else if(position == 1){
-		display_string(2, ">Settings");
-	}
+
+	if(page == 1)	{
+			// Displays the settings
+			char rowZero[] = " Player speed: -";
+			rowZero[15] = PLAYER_SPEED + '0';
+			// rowZero[15] = PLAYER_WIDTH + '0';
+
+			char rowOne[] = " Map: map-";
+			rowOne[9] = currentMap + '0';
+
+			display_string(0, "");
+			display_string(1, rowZero);
+			display_string(2, rowOne);
+			display_string(3, "");
+
+			if (position == 0){
+				rowZero[0] = '>';
+				display_string(1, rowZero);
+			}
+
+			else if(position == 1){
+				rowOne[0] = '>';
+				display_string(2, rowOne);
+			}
+		}
+
 
 	display_update();
 }
 
 /*
-stateMenu
+state
 Written by Johanna Jansson
 DESC:
-	Keeps track of and returns the menu position.
+	Keeps track of and returns the position.
 PRE:
 	Buttons initialized?
 POST:
-	Returnes an updated menu position.
+	Returnes an updated position.
 */
-int stateMenu(int position){
+int state(int position){
   // Changes the state in the menu
 	if(getButton() == 4){
 		position++;
@@ -66,85 +96,21 @@ int stateMenu(int position){
 
 
 /*
-exitMenu
+play
 Written by Johanna Jansson
 DESC:
-	Returns 1 if the player has chosen to leave the menu.
+	Returns 1 if the player has chosen to play game.
 PRE:
 	Buttons initialized?
 POST:
 	Returns "1" or "0".
 */
-int exitMenu(int position){
+int play(int page, int position){
   // Exits menu
-	if(position == 0 && getButton() == 2){
+	if(position == 0 && getButton() == 2 && page == 0){
 		return 1;
 	}
 	return 0;
-}
-
-int currentMap = 4;
-/*
-settings
-Written by Johanna Jansson
-DESC:
-	Displays and cycles cursor for the settings. Updates display
-	according to provided position argument
-PRE:
-	n/a
-POST:
-	Displays a variation of strings on screen based on input.
-*/
-void settings(int position) {
-  // Displays the settings
-	char rowZero[] = " Player speed: -";
-	rowZero[15] = PLAYER_SPEED + '0';
-	// rowZero[15] = PLAYER_WIDTH + '0';
-
-	char rowOne[] = " Map: map-";
-	rowOne[9] = currentMap + '0';
-
-	display_string(0, "");
-	display_string(1, rowZero);
-	display_string(2, rowOne);
-	display_string(3, " Exit");
-
-	if (position == 0){
-		rowZero[0] = '>';
-		display_string(1, rowZero);
-	}
-
-	else if(position == 1){
-		rowOne[0] = '>';
-		display_string(2, rowOne);
-	}
-	else if(position == 2){
-		display_string(3, ">Exit");
-	}
-
-
-	display_update();
-}
-
-/*
-stateSettings
-Written by Johanna Jansson
-DESC:
-	Keeps track of and returns the settings position.
-PRE:
-	Buttons initialized?
-POST:
-	Returnes an updated settings position.
-*/
-int stateSettings(int position){
-  // Changes the state in the menu
-	if(getButton() == 4){
-		position++;
-	}
-	if (position > 2){
-		position = 0;
-	}
-	return position;
 }
 
 /*
@@ -157,212 +123,9 @@ PRE:
 POST:
 	Returns "1" or "0".
 */
-int enterSettings(int position){
+int enterSettings1(int page, int position){
   // Enter settings
-	if(position == 1 && getButton() == 2){
-		return 1;
-	}
-	return 0;
-}
-
-/*
-exitSettings
-Written by Johanna Jansson
-DESC:
-	Returns 1 if the player has chosen to leave the settings.
-PRE:
-	Buttons initialized?
-POST:
-	Returns "1" or "0".
-*/
-int exitSettings(int position){
-  // Exits menu
-	if(position == 2 && getButton() == 2){
-		return 1;
-	}
-	return 0;
-}
-
-/*
-map
-Written by Johanna Jansson
-DESC:
-	Displays and cycles cursor for the map. Updates display
-	according to provided position argument
-PRE:
-	n/a
-POST:
-	Displays a variation of strings on screen based on input.
-*/
-void map(int position) {
-  // Displays the map
-
-	char row[] = " Map: map-";
-	row[9] = currentMap + '0';
-
-	display_string(0, "");
-	display_string(1, row);
-	display_string(2, " Exit");
-	display_string(3, "");
-
-	if (position == 0){
-		row[0] = '>';
-		display_string(1, row);
-	}
-
-	else if(position == 1){
-		display_string(2, ">Exit");
-	}
-
-
-	display_update();
-}
-
-/*
-stateMap
-Written by Johanna Jansson
-DESC:
-	Keeps track of and returns the settings position.
-PRE:
-	Buttons initialized?
-POST:
-	Returnes an updated settings position.
-*/
-int stateMap(int position){
-  // Changes the state in the menu
-	if(getButton() == 4){
-		position++;
-	}
-	if (position > 1){
-		position = 0;
-	}
-	return position;
-}
-
-/*
-enterMap
-Written by Johanna Jansson
-DESC:
-	Chang map.
-PRE:
-	Buttons initialized?
-POST:
-	Chang map.
-*/
-int enterMap(int position){
-  // Enter map
-	if(position == 1 && getButton() == 2){
-		return 1;
-	}
-	return 0;
-}
-
-/*
-changMap
-Written by Johanna Jansson
-DESC:
-	Chang map.
-PRE:
-	Buttons initialized?
-POST:
-	Chang map.
-*/
-void changMap(int position){
-	if(position == 0 && getButton() == 2){
-		currentMap++;
-	}
-	if(currentMap > 5){
-		currentMap = 0;
-	}
-}
-
-/*
-exitMap
-Written by Johanna Jansson
-DESC:
-	Returns 1 if the player has chosen to leave the map.
-PRE:
-	Buttons initialized?
-POST:
-	Returns "1" or "0".
-*/
-int exitMap(int position){
-  // Exits menu
-	if(position == 1 && getButton() == 2){
-		return 1;
-	}
-	return 0;
-}
-
-/*
-speed
-Written by Johanna Jansson
-DESC:
-	Displays and cycles cursor for the speed. Updates display
-	according to provided position argument
-PRE:
-	n/a
-POST:
-	Displays a variation of strings on screen based on input.
-*/
-void speed(int position) {
-  // Displays the map
-
-	char row[] = " Speed: -";
-	row[8] = PLAYER_SPEED + '0';
-
-	display_string(0, "");
-	display_string(1, row);
-	display_string(2, " Exit");
-	display_string(3, "");
-
-	if (position == 0){
-		row[0] = '>';
-		display_string(1, row);
-	}
-
-	else if(position == 1){
-		display_string(2, ">Exit");
-	}
-
-
-	display_update();
-}
-
-/*
-stateSpeed
-Written by Johanna Jansson
-DESC:
-	Keeps track of and returns the speed position.
-PRE:
-	Buttons initialized?
-POST:
-	Returnes an updated speed position.
-*/
-int stateSpeed(int position){
-  // Changes the state in the speed
-	if(getButton() == 4){
-		position++;
-	}
-	if (position > 1){
-		position = 0;
-	}
-	return position;
-}
-
-/*
-enterSpeed
-Written by Johanna Jansson
-DESC:
-	Chang speed.
-PRE:
-	Buttons initialized?
-POST:
-	Chang speed.
-*/
-int enterSpeed(int position){
-  // Enter map
-	if(position == 0 && getButton() == 2){
+	if(position == 1 && getButton() == 2 && page == 0){
 		return 1;
 	}
 	return 0;
@@ -372,14 +135,14 @@ int enterSpeed(int position){
 changSpeed
 Written by Johanna Jansson
 DESC:
-	Chang speed.
+	Change speed of player if the cursor poynts to speed and butten is pusht.
 PRE:
 	Buttons initialized?
 POST:
-	Chang speed.
+	Change speed of player.
 */
-void changSpeed(int position){
-	if(position == 0 && getButton() == 2){
+void changSpeed(int page ,int position){
+	if(position == 0 && getButton() == 2 && page == 1){
 		PLAYER_SPEED++;
 	}
 	if(PLAYER_SPEED > 5){
@@ -388,18 +151,36 @@ void changSpeed(int position){
 }
 
 /*
-exitSpeed
+changMap
 Written by Johanna Jansson
 DESC:
-	Returns 1 if the player has chosen to leave the speed.
+	Change map if the cursor poynts to map and butten is pushed.
+PRE:
+	Buttons initialized?
+POST:
+	Change map.
+*/
+void changMap(int page, int position){
+	if(position == 1 && getButton() == 2 && page == 1){
+		currentMap++;
+	}
+	if(currentMap > 5){
+		currentMap = 0;
+	}
+}
+
+/*
+exit
+Written by Johanna Jansson
+DESC:
+	Returns 1 if the player has chosen to push button.
 PRE:
 	Buttons initialized?
 POST:
 	Returns "1" or "0".
 */
-int exitSpeed(int position){
-  // Exits speed
-	if(position == 1 && getButton() == 2){
+int exit(){
+	if(getButton() == 1){
 		return 1;
 	}
 	return 0;
