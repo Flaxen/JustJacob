@@ -32,69 +32,37 @@ int main(void) {
 	while(dogX > (-TILE_WIDTH)) {
 		animateDog(dogX, dogY, 180000);
 		dogX -= 4;
+		if(exit()){
+			goto MENU;
+		}
 	}
 
 	MENU:
 	delay(1000000);
 	// enter menu
 	int menuRow = 0;
-	while(1){
-		menuRow = stateMenu(menuRow);
-		menu(menuRow);
-		if(exitMenu(menuRow)){
-			goto GAME;
-		}
-		if(enterSettings(menuRow)){
-			goto SETTINGS;
-
-		}
-		delay(1000000);
-	}
-
-	SETTINGS:
-	delay(1000000);
-	// enter settings
 	int statesettingsRow = 0;
+	int page = 0;
 	while(1){
-		statesettingsRow = stateSettings(statesettingsRow);
-		settings(statesettingsRow);
-		if(exitSettings(statesettingsRow)){
-			goto MENU;
+		if(page == 0){
+			menuRow = state(menuRow);
+			menu(page, menuRow);
+			if(play(page, menuRow)){
+				goto GAME;
+			}
+			if(enterSettings1(page, menuRow)){
+				page = 1;
+			}
 		}
-		if(enterMap(statesettingsRow)){
-			goto MAP;
+		else{
+			statesettingsRow = state(statesettingsRow);
+			menu(page, statesettingsRow);
+			changMap(page, statesettingsRow);
+			changSpeed(page, statesettingsRow);
+			if(exit()){
+				page = 0;
+			}
 		}
-		if(enterSpeed(statesettingsRow)){
-			goto SPEED;
-		}
-		delay(1000000);
-	}
-
-	MAP:
-	delay(1000000);
-	// enter Map
-	int mapRow = 0;
-	while(1){
-		mapRow = stateMap(mapRow);
-		map(mapRow);
-		if(exitMap(mapRow)){
-			goto SETTINGS;
-		}
-		changMap(mapRow);
-		delay(1000000);
-	}
-
-	SPEED:
-	delay(1000000);
-	// enter Map
-	int speedRow = 0;
-	while(1){
-		speedRow = stateSpeed(speedRow);
-		speed(speedRow);
-		if(exitSpeed(speedRow)){
-			goto SETTINGS;
-		}
-		changSpeed(speedRow);
 		delay(1000000);
 	}
 
@@ -113,9 +81,9 @@ int main(void) {
 		if(winGame()){
 			break;
 		}
-		// rerstarts the game
-		if(getButton() == 1){
-			goto START;
+		// goes to menu
+		if(exit()){
+			goto MENU;
 		}
 		delay((150000*3)/PLAYER_SPEED);
 	}
