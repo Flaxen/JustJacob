@@ -10,8 +10,10 @@
 #include "animations/animationFunctions.h"
 #include "customMapMaker/customMaps.c"
 
-// #include "settings.h"
-
+/*
+Written by Johanna Jansson
+Last edited by Alexander Carlsson
+*/
 
 int main(void) {
 
